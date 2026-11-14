@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* ============ Design tokens: warm, calm, premium — with a little play ============ */
+@theme {
+  --color-cream: #FAF8F5;
+  --color-cream-2: #F3EEE6;
+  --color-sand: #E8E1D5;
+  --color-royal: #1E3A8A;
+  --color-royal-deep: #172554;
+  --color-royal-soft: #E6ECFA;
+  --color-gold: #F59E0B;
+  --color-gold-deep: #B45309;
+  --color-gold-soft: #FEF3C7;
+  --color-emerald: #10B981;
+  --color-emerald-deep: #047857;
+  --color-emerald-soft: #D1FAE5;
+  --color-coral: #F43F5E;
+  --color-coral-deep: #BE123C;
+  --color-coral-soft: #FFE4E6;
+  --color-ink: #1F2A44;
+  --color-ink-soft: #64708B;
+
+  --font-display: "Cairo", "Tajawal", "Segoe UI", Tahoma, sans-serif;
+  --font-body: "Tajawal", "Cairo", "Segoe UI", Tahoma, sans-serif;
+  --font-en: "Fredoka", "Andika", "Tajawal", sans-serif;
+  --font-letter: "Andika", "Comic Sans MS", "Tajawal", sans-serif;
+
+  --radius-xl2: 28px;
+  --shadow-soft: 0 1px 2px rgb(31 42 68 / .04), 0 12px 32px -12px rgb(31 42 68 / .14);
+  --shadow-lift: 0 2px 4px rgb(31 42 68 / .05), 0 24px 48px -16px rgb(30 58 138 / .22);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-bob: bob 1.6s ease-in-out infinite;
+  --animate-pop: pop 1.25s ease-out both;
+  @keyframes float { 50% { transform: translateY(-14px) rotate(4deg); } }
+  @keyframes bob { 50% { transform: translateY(-6px); } }
+  @keyframes pop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+    15% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    25% { transform: translate(-50%, -50%) scale(1); }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
+  }
+}
+
+@layer base {
+  * { -webkit-tap-highlight-color: transparent; }
+  html { color-scheme: light; background: var(--color-cream); }
+  html.racing, html.racing body { overflow: hidden; height: 100%; }
+  body {
+    margin: 0; min-height: 100dvh; background: var(--color-cream); color: var(--color-ink);
+    font-family: var(--font-body); font-weight: 500; line-height: 1.7;
+    -webkit-font-smoothing: antialiased; user-select: none; -webkit-user-select: none;
+  }
+  h1, h2, h3 { font-family: var(--font-display); line-height: 1.35; text-wrap: balance; margin: 0; }
+  p { margin: 0; text-wrap: pretty; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input, textarea { user-select: text; -webkit-user-select: text; font: inherit; }
+  :focus-visible { outline: 3px solid var(--color-gold); outline-offset: 3px; border-radius: 12px; }
+  [hidden] { display: none !important; }
+  /* Arabic with full tashkeel needs air above and below the line. */
+  .harakat { line-height: 1.9; font-feature-settings: "kern", "liga", "mark", "mkmk"; }
+  .en { font-family: var(--font-letter); direction: ltr; font-weight: 700; }
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@layer components {
+  /* The "pressable" block: a solid ledge under the surface that the finger pushes down. */
+  .press { transition: transform .12s ease, box-shadow .12s ease, background-color .2s ease; box-shadow: 0 5px 0 var(--ledge, rgb(31 42 68 / .16)); }
+  .press:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 var(--ledge, rgb(31 42 68 / .16)); }
+  .press:disabled { opacity: .5; cursor: default; }
+  .glass { background: rgb(255 255 255 / .86); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border: 1px solid rgb(255 255 255 / .7); }
+  .paper-grain { background-image: radial-gradient(rgb(30 58 138 / .045) 1px, transparent 1px); background-size: 22px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
